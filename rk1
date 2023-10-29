@@ -1,0 +1,105 @@
+РК1 ИУ5-32Б Новиков Сергей 
+
+class Conductor:
+ def __init__(self, conductor_id, name):
+ self.conductor_id = conductor_id
+ self.name = name
+class Orchestra:
+ def __init__(self, orchestra_id, name, conductor):
+ self.orchestra_id = orchestra_id
+ self.name = name
+ self.conductor = conductor
+class Musician:
+ def __init__(self, musician_id, name):
+ self.musician_id = musician_id
+ self.name = name
+class OrchestraMusician:
+ def __init__(self, orchestra, musician):
+ self.orchestra = orchestra
+ self.musician = musician
+conductors = [
+ Conductor(1, "Herbert von Karajan"),
+ Conductor(2, "Leonard Bernstein"),
+ Conductor(3, "Gustavo Dudamel"),
+]
+orchestras = [
+ Orchestra(1, "Berlin Philharmonic", conductors[0]),
+ Orchestra(2, "New York Philharmonic", conductors[1]),
+ Orchestra(3, "Los Angeles Philharmonica", conductors[2]),
+]
+musicians = [
+ Musician(1, "Violinist"),
+ Musician(2, "Cellist"),
+ Musician(3, "Pianist"),
+ Musician(4, "Trumpeter"),
+ Musician(5, "Trombonist"),
+]
+orchestra_musicians = [
+ OrchestraMusician(orchestras[0], musicians[0]),
+ OrchestraMusician(orchestras[0], musicians[1]),
+ OrchestraMusician(orchestras[1], musicians[2]),
+ OrchestraMusician(orchestras[2], musicians[3]),
+ OrchestraMusician(orchestras[2], musicians[4]),
+]
+# 1. Выведите список всех связанных оргестров и дирижеров, отсортированный по книгам,
+сортировка по книжным магазинам произвольная.
+# В данном случае нет связи с книгами, поэтому просто выводим список оркестров и
+дирижеров
+
+def get_orchestras_and_conductors_sorted_by_books():
+ orchestras_and_conductors = []
+ for orchestra in orchestras:
+ conductor = orchestra.conductor
+ orchestras_and_conductors.append((orchestra.name, conductor.name))
+ return sorted(orchestras_and_conductors)
+# 2. Выведите список оркетсров с количеством музыкантов в каждом оркестре,
+отсортированный по количеству музыкантов.
+def get_orchestras_sorted_by_musician_count():
+ orchestra_musician_count = {}
+ for orchestra_musician in orchestra_musicians:
+ orchestra_id = orchestra_musician.orchestra.orchestra_id
+ if orchestra_id not in orchestra_musician_count:
+ orchestra_musician_count[orchestra_id] = 0
+ orchestra_musician_count[orchestra_id] += 1
+ orchestras_with_count = []
+ for orchestra in orchestras:
+ count = orchestra_musician_count.get(orchestra.orchestra_id, 0)
+ orchestras_with_count.append((orchestra.name, count))
+ sorted_orchestras_with_count = sorted(orchestras_with_count, key=lambda x: x[1])
+ return sorted_orchestras_with_count
+# 3. Выведите список всех оркестров, у которых название заканчивается на «a», и
+дерижеры, у которых они находятся.
+def get_orchestras_and_conductors_with_a():
+ orchestras_and_conductors = []
+ for orchestra in orchestras:
+ if orchestra.name.endswith("a"):
+ conductor_name = orchestra.conductor.name
+ orchestras_and_conductors.append((orchestra.name, conductor_name))
+ return orchestras_and_conductors
+def main():
+ print('Задание 1')
+ print(get_orchestras_and_conductors_sorted_by_books())
+ print('\nЗадание 2')
+ print(get_orchestras_sorted_by_musician_count())
+ print('\nЗадание 3')
+ print(get_orchestras_and_conductors_with_a())
+if __name__ == '__main__':
+ main()
+ЗАДАНИЕ:
+1)«Дирижер» и «Оркестр» связаны соотношением один-ко-многим. Выведите
+список всех связанных оркестров и дирижеров, отсортированный по книгам,
+сортировка по книжным магазинам произвольная.
+2)«Дирижер» и «Оркестр» связаны соотношением один-ко-многим. Выведите
+список оркестров с количеством музыкантов в каждом оркестре, отсортированный
+по количеству музыкантов.
+3)«Дирижер» и «Оркестр» связаны соотношением многие-ко-многим. Выведите
+список всех оркестров, у которых название заканчивается на «А», и дирижёры, у
+которых они находятся.
+Результаты выполнения:
+Задание 1
+[('Berlin Philharmonic', 'Herbert von Karajan'), ('Los Angeles Philharmonica', 'Gustavo
+Dudamel'), ('New York Philharmonic', 'Leonard Bernstein')]
+Задание 2
+[('New York Philharmonic', 1), ('Berlin Philharmonic', 2), ('Los Angeles Philharmonica', 2)]
+Задание 3
+[('Los Angeles Philharmonica', 'Gustavo Dudamel’)]
